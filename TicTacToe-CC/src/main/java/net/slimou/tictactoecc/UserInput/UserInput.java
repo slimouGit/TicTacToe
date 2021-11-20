@@ -19,12 +19,30 @@ public class UserInput {
         System.out.println("Whats your Sign");
         String sign = reader.readLine();
         setSign(sign.charAt(0));
+        selectRow(reader);
+        selectColumn(reader);
+    }
+
+    private void selectRow(BufferedReader reader) throws IOException {
         System.out.println("Which row ");
         String row = reader.readLine();
-        setRow(Integer.parseInt(row));
+        try {
+            setRow(Integer.parseInt(row));
+        } catch (Exception e) {
+            System.out.println("Falsche Eingabe");
+            selectRow(reader);
+        }
+    }
+
+    private void selectColumn(BufferedReader reader) throws IOException {
         System.out.println("Which column ");
         String column = reader.readLine();
-        setColumn(Integer.parseInt(column));
+        try {
+            setColumn(Integer.parseInt(column));
+        } catch (Exception e) {
+            System.out.println("Falsche Eingabe");
+            selectColumn(reader);
+        }
     }
 
     public char getSign() {
