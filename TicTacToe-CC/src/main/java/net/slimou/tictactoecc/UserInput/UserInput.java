@@ -9,6 +9,16 @@ import java.io.InputStreamReader;
 @Component
 public class UserInput {
 
+    public enum Field {
+        ROW("Which row"), COLUMN("Which column");
+
+        public final String label;
+
+        Field(String label) {
+            this.label = label;
+        }
+    }
+
     private char sign;
     private Integer row;
     private Integer column;
@@ -19,29 +29,21 @@ public class UserInput {
         System.out.println("Whats your Sign");
         String sign = reader.readLine();
         setSign(sign.charAt(0));
-        selectRow(reader);
-        selectColumn(reader);
+        selectField(reader, Field.ROW);
+        selectField(reader, Field.COLUMN);
     }
 
-    private void selectRow(BufferedReader reader) throws IOException {
-        System.out.println("Which row ");
-        String row = reader.readLine();
+    private void selectField(BufferedReader reader, Field field) {
+        System.out.println(field.label);
         try {
-            setRow(Integer.parseInt(row));
+            if (field.equals(Field.ROW)) {
+                this.row = Integer.parseInt(reader.readLine());
+            } else {
+                this.column = Integer.parseInt(reader.readLine());
+            }
         } catch (Exception e) {
             System.out.println("Falsche Eingabe");
-            selectRow(reader);
-        }
-    }
-
-    private void selectColumn(BufferedReader reader) throws IOException {
-        System.out.println("Which column ");
-        String column = reader.readLine();
-        try {
-            setColumn(Integer.parseInt(column));
-        } catch (Exception e) {
-            System.out.println("Falsche Eingabe");
-            selectColumn(reader);
+            selectField(reader, field);
         }
     }
 
@@ -57,15 +59,8 @@ public class UserInput {
         return row;
     }
 
-    public void setRow(Integer row) {
-        this.row = row;
-    }
-
     public Integer getColumn() {
         return column;
     }
 
-    public void setColumn(Integer column) {
-        this.column = column;
-    }
 }
